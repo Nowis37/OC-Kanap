@@ -34,13 +34,13 @@ function basketUpdate(){
 }
 
 if(basket === null || basket == 0){ // Panier vide
-    const basketEmpty = `<h2>Le panier est vide</h2>`;
-    document.querySelector('#cart__items').innerHTML = basketEmpty; 
+  const basketEmpty = `<h2>Le panier est vide</h2>`;
+  document.querySelector('#cart__items').innerHTML = basketEmpty; 
 }else{
     basketUpdate();
-
-    
 }
+
+
 
 
 // ********** Fin de l'affichage des produits du panier ********** //
@@ -79,26 +79,16 @@ function basketTotal(){
 
 // **********  Gestion du boutton supprimer l'article ********** //
 
-let btnDelete = document.querySelectorAll('.deleteItem');
-console.log(btnDelete);
+  let btnDelete = document.querySelectorAll('.deleteItem');
 
 for (let k = 0; k < btnDelete.length; k++){
     btnDelete[k].addEventListener('click', (e) =>{
-
-        // Séléction de l'id du produit 
-        let id_SelectDelete = basket[k].idProduct;
+      let id_SelectDelete = basket[k].idProduct;
         let color_SelectDelete = basket[k].colorProduct;
 
-        // Méthode filter : séléct  ion élément à garder, supprime l'élément btn ou suppr a été cliquer
         basket = basket.filter( el => el.idProduct !== id_SelectDelete || el.colorProduct !== color_SelectDelete);
-        console.log(basket);
-
-        // On envoie la var dans le localStorage
         localStorage.setItem('produit', JSON.stringify(basket));
-
-        // Alert pour avertir que le produit a été supp
-        window.location.href = "cart.html";
-
+        location.reload();
     })
 }
 
@@ -124,16 +114,11 @@ console.log(inputQuantity);
 for (let z = 0; z < inputQuantity.length; z++){
   inputQuantity[z].addEventListener('change', (e) =>{
 
-    console.log("Numéro de l'item :");
-    console.log([z]);
-    console.log('ficher du produit');
-    console.log(basket[z]);
-    
     let changeQuantity = document.querySelectorAll('input')[z].value;
     if(changeQuantity <= 0 || changeQuantity >= 100){
       alert(`La quantité d'article doit aller de 1 à 100 par produit !`);
     }else{
-      console.log('Nouvelle quantité ' + changeQuantity);
+
       let product = {
         idProduct: basket[z].idProduct,
         nameProduct: basket[z].nameProduct,
@@ -145,7 +130,7 @@ for (let z = 0; z < inputQuantity.length; z++){
       basket.splice([z], 1, product);
       console.log(basket);
   
-      localStorage.setItem('produit', JSON.stringify(basket)); // Le transforme en format JSON et l'envoyer dans la key 'produit'
+      localStorage.setItem('produit', JSON.stringify(basket));
       basketTotal();
     }
   })
@@ -187,6 +172,7 @@ const validFirstName = function(inputFirstName){
     return false;
   }
   if(inputFirstName.value.match(/^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]{3,25}$/)){
+    p.innerHTML = "";
     return true;
   }else{
     p.innerHTML = "Veuillez ne pas mettre de caractère spécial, ni de chiffre";
@@ -226,7 +212,7 @@ const validAddress = function(inputAddress){
 };
 const validCity = function(inputCity){
   let p = inputCity.nextElementSibling // Récupération de la balise p (après le input)
-  if(inputCity.value.match(/^[a-z A-Z 0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,50}$/)){
+  if(inputCity.value.match(/^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,50}$/)){
     p.innerHTML = "";
     return true;
   }else{

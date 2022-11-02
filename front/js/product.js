@@ -1,4 +1,4 @@
-// *************** PRODUIT PAR PAGE *************** //
+// *************** Page de produit (selon article cliqué) *************** //
 
 
 let param = new URL(document.location).searchParams;
@@ -10,7 +10,6 @@ fetch(urlProduct)
   .then((response) =>
     response.json()
       .then((data) => {
-        // console.log(data)
         let imgShow = `<img src="${data.imageUrl}" alt="${data.altTxt}">`;
         let titleShow = `${data.name}`;
         let priceShow = `${data.price}`;
@@ -35,7 +34,7 @@ fetch(urlProduct)
 /**
  *
  * Contenu du product:
- * newProduct ou product: {
+ * newProduct et product: {
  *   idProduct: string,
  *   nameProduct: string,
  *   urlImageProduct: string,
@@ -48,7 +47,6 @@ fetch(urlProduct)
 // -> Clic "Ajouter au panier"
 document.querySelector('#addToCart').addEventListener('click', function(){
 
-    let product;
     let saveName = document.getElementById('title').innerText;
     let saveUrlImage = document.querySelector('.item__img').innerHTML;
     let saveColor = document.getElementById('colors').value;
@@ -85,13 +83,8 @@ document.querySelector('#addToCart').addEventListener('click', function(){
         if(basket){ // Si il y a un item dans le lS
             let otherItem = false;
             for(v = 0; v < basket.length; v++){
-              console.log(v)
               if(basket[v].idProduct == product.idProduct){
-                console.log(v);
-                console.log('same id !');
                 if(basket[v].colorProduct == product.colorProduct){
-                  console.log('same color !');
-                  console.log(v);
 
                   let newQuantityProduct = parseInt(basket[v].quantityProduct) + parseInt(saveQuantity);
                   if(newQuantityProduct > 100){
@@ -105,8 +98,6 @@ document.querySelector('#addToCart').addEventListener('click', function(){
                     quantityProduct: newQuantityProduct, 
                   };
                   basket.splice([v], 1, newProduct);
-                  console.log(v);
-                  console.log(basket);
 
                   otherItem = true;
                   localStorage.setItem('produit', JSON.stringify(basket)); // Le transforme en format JSON et l'envoyer dans la key 'produit'
@@ -114,7 +105,6 @@ document.querySelector('#addToCart').addEventListener('click', function(){
               }
             } 
             if(otherItem == false){ // Item différent
-              console.log(v);
               addProduct();
             }
               
